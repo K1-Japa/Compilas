@@ -1,0 +1,20 @@
+#include <iostream>
+
+int main() {
+    int soma = 5;
+    int valorLimite = 50;
+
+    // Laço for para somar os números de 1 a 10
+    for (int i = 1; i <= 10; i++) {
+        soma += i;  // soma = soma + i
+    }
+
+    // Comparação do valor da soma com o limite
+    if (soma > valorLimite) {
+        std::cout << "A soma é maior que " << valorLimite << std::endl;
+    } else {
+        std::cout << "A soma não é maior que " << valorLimite << std::endl;
+    }
+
+    return 0;
+}

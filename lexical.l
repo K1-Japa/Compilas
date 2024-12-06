@@ -93,6 +93,11 @@
 "print"                                { return (tk_print); }
 "scanf"                                { return (tk_scanf); }
 "main"                                 { return (tk_main); }
+"void"                                 { return (tk_void); }
+"return"                               { return (tk_return); }
+
+"T"                                    { return (tk_true); }
+"F"                                    { return (tk_false); }
 
 \/\/[^\r\n]*                           {                }
 
@@ -114,7 +119,7 @@
 
 [ \t\r\n]                              {                }
 
-.                                      { return (tk_err); } 
+.                                      { return (return *yytext); } 
 
 %%
 int main(int argc, char **argv) {

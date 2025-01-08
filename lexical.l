@@ -35,7 +35,10 @@
         tk_semicolon,
         tk_comma,
         tk_id,
-        tk_import
+        tk_import,
+        tk_true,
+        tk_false,
+        tk_else
     };
 
     string tokenToString(Tokens token) {
@@ -69,6 +72,9 @@
             case tk_id:         return "tk_id";
             case tk_import:     return "tk_import";
             case tk_err:        return "tk_err";
+            case tk_true:       return "tk_true";
+            case tk_false:      return "tk_false";
+            case tk_else:       return "tk_else";
             default:            return "Erro";
         }
     }
@@ -89,6 +95,7 @@
 
 "[]"                                   { return (tk_vet); }
 "if"                                   { return (tk_if); }
+"else"                                 { return (tk_else); }
 "for"                                  { return (tk_for); }
 "print"                                { return (tk_print); }
 "scanf"                                { return (tk_scanf); }

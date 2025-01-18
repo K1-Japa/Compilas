@@ -32,7 +32,7 @@
 
     %token tk_void
     %token <ObjNod> tk_int tk_float tk_char tk_string tk_typeInt tk_typeFloat tk_typeChar tk_typeString tk_vet tk_if tk_for tk_print tk_scanf tk_main tk_atrib tk_opMath tk_opLog tk_openParen tk_closeParen tk_openBracket tk_closeBracket tk_openCurly tk_closeCurly tk_colon tk_semicolon tk_comma tk_id tk_import, tk_true, tk_false, tk_else
-    %type <ObjNod> menu imports listFunctions main main_start code return dataType statement functionCall print printString args condition else statementFunction nameFunction listParameters
+    %type <ObjNod> menu imports listFunctions main main_start code return dataType statement functionCall print printString args condition else statementFunction nameFunction listParameters init array
     %type <ObjNod2> value
 
 %%
@@ -108,7 +108,7 @@
         |tk_typeChar{
             putType();
         }
-        |tk_typeString{
+        |tk_typeString{ //remover tipo string
             putType();
         }
         |tk_void{
@@ -194,6 +194,65 @@
         | {
             $$.nod = NULL;
         };
+    
+    statement:
+        dataType tk_id init {
+            $2.nod = makeNode(NULL, NULL, $2.name);
+
+            char* ret = checkType($1.name, $3.type);
+            
+            if((!strcmp(ret, "equal")) || (!strcmp(ret, "Null"))){
+                $$.nod = makeNode($2.nod, $3.nod, "statement");
+            }
+            else{
+                struct node *t =  makeNode(NULL, $3.nod, ret);
+
+                $$.nod = makeNode($2.nod, t, "statement");
+            }
+        }
+        | array init {
+            $2.nod = makeNode(NULL, NULL, $2.name);
+
+            char* ret = checkType($1.name, $2.type);
+
+            if((!strcmp(ret, "equal")) || (!strcmp(ret, "Null"))){
+                $$.nod = makeNode($2.nod, $2.nod, "statement");
+            }
+            else{
+                struct node *t =  makeNode(NULL, $2.nod, ret);
+
+                $$.nod = makeNode($2.nod, t, "statement");
+            }    
+        }
+        | tk_id tk_atrib expression {
+            $1.nod = makeNode(NULL. NULL, $1.name);
+        };
+    
+    value:
+    
+    init:
+        tk_atrib value {
+            $$.nod = $2.nod;
+            sprintf($$.type, $2.type);
+            strcpy($$.name, $2.name);
+        }
+        | {
+            sprintf($$.type, "null");
+            $$.nod = makeNode(NULL, NULL, "null");
+            strcpy($$.name, "null");
+        };
+    
+    array:
+        dataType tk_id tk_openBracket tk_int tk_closeBracket {
+            $1.nod = makeNode(NULL, NULL, $1.name);
+            $$.nod = makeNode($1.nod, $2.nod, "array");
+        };
+
+
+    return:
+        tk_return tk_openParen tk_id tk_closeParen{
+            $$.nod = makeNode();
+        };
 
 %%
 
@@ -203,4 +262,42 @@ void main(){
 
 void putType(){
     strcpy(type, yytext);
+}
+
+char* checkType(char* typeA, char* typeB){
+    if(!strcmp(typeA, typeB)){
+        return "equal";
+    }
+    else if(!strcmp(typeaA, "int")){
+        if(!strcmp(typeB, "float")){
+            return "intFloat";
+        }
+        else if(!strcmp(typeB, "char")){
+            return "intChar";
+        }     
+    }
+    else if(!strcmp(typeA, "float")){
+        if(!strcmp(typeB, "int")){
+            return "floatInt";
+        }
+        else if(!strcmp(typeB, "char")){
+            return "floatChar";
+        }
+    }
+    else if(!strcmp(typeA, "char")){
+        if(!strcmp(typeB, "int")){
+            return "charInt";
+        }
+        else if(!strcmp(typeB, "float")){
+            return "charFloat";
+        }
+    }
+    else if(!strcmp(typeB, "null")){
+        return "Null";
+    }
+    else{
+        cout << "Erro na linha " << (countn + 1)  << ": Tipo de dado nao encontrado" << endl;
+        numError++;
+        return;
+    }
 }

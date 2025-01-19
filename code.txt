@@ -5,13 +5,13 @@ int main() {
     int valorLimite = 50;
 
     // Laco for para somar os numeros de 1 a 10
-    for (int i = 1; i <= 10; i++) {
-        soma += i;  // soma = soma + i
+    for (int i = 1; i <= 10; i=i+1) {
+        soma = soma + i;
     }
 
     // Comparacao do valor da soma com o limite
     if (soma > valorLimite) {
-        std::cout << "A soma é maior que " << valorLimite << std::endl;
+        print("A soma é maior que %d\n", valorLimite);
     } else {
         print("A soma não é maior que");
     }

@@ -1,0 +1,97 @@
+{
+  "token": " Y¾ÿ",
+  "left": {
+  "token": "@Y¾ÿ",
+  "left": null,
+  "right": {
+  "token": "àX¾ÿ",
+  "left": null,
+  "right": null
+}
+},
+  "right": {
+  "token": "@Y¾ÿ",
+  "left": null,
+  "right": {
+  "token": "àX¾ÿ",
+  "left": {
+  "token": "€X¾ÿ",
+  "left": {
+  "token": " X¾ÿ",
+  "left": {
+  "token": "ÀW¾ÿ",
+  "left": {
+  "token": "`W¾ÿ",
+  "left": null,
+  "right": null
+},
+  "right": {
+  "token": "`W¾ÿ",
+  "left": null,
+  "right": null
+}
+},
+  "right": {
+  "token": "ÀW¾ÿ",
+  "left": {
+  "token": "`W¾ÿ",
+  "left": null,
+  "right": null
+},
+  "right": {
+  "token": "`W¾ÿ",
+  "left": null,
+  "right": null
+}
+}
+},
+  "right": {
+  "token": " X¾ÿ",
+  "left": null,
+  "right": null
+}
+},
+  "right": {
+  "token": "€X¾ÿ",
+  "left": {
+  "token": " X¾ÿ",
+  "left": {
+  "token": "ÀW¾ÿ",
+  "left": {
+  "token": "`W¾ÿ",
+  "left": null,
+  "right": null
+},
+  "right": {
+  "token": "`W¾ÿ",
+  "left": null,
+  "right": null
+}
+},
+  "right": {
+  "token": "ÀW¾ÿ",
+  "left": {
+  "token": "`W¾ÿ",
+  "left": null,
+  "right": null
+},
+  "right": null
+}
+},
+  "right": {
+  "token": " X¾ÿ",
+  "left": {
+  "token": "ÀW¾ÿ",
+  "left": {
+  "token": "`W¾ÿ",
+  "left": null,
+  "right": null
+},
+  "right": null
+},
+  "right": null
+}
+}
+}
+}
+}

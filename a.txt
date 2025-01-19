@@ -1,0 +1,6 @@
+all:
+	clear
+	yacc -v -d syntax.y
+	g++ -w y.tab.c
+	flex lexical.l
+	g++ -w lex.yy.c -o lexer -ll

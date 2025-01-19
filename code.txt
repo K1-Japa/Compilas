@@ -1,4 +1,4 @@
-import("iostream";
+import("AIMEUDEUS");
 
 int main() {
     int soma = 5;
@@ -13,7 +13,7 @@ int main() {
     if (soma > valorLimite) {
         std::cout << "A soma é maior que " << valorLimite << std::endl;
     } else {
-        std::cout << "A soma não é maior que " << valorLimite << std::endl;
+        print("A soma não é maior que");
     }
 
     return 0;

@@ -1,47 +1,74 @@
 %{
+    #include "y.tab.h"
     #include <iostream>
     #include <unistd.h>
+    #include <string>
     #include <vector>
-    #define MAKE_TOKEN(token) ((Tokens) token) 
+    extern int yylineno;
+
+    int lines = 0;
 
     using namespace std;
 
-    enum Tokens {
-        tk_err,
-        tk_int,
-        tk_float,
-        tk_char,
-        tk_string,
-        tk_typeInt,
-        tk_typeFloat,
-        tk_typeChar,
-        tk_typeString,
-        tk_vet,
-        tk_if,
-        tk_for,
-        tk_print,
-        tk_scanf,
-        tk_main,
-        tk_atrib,
-        tk_opMath,
-        tk_opLog,
-        tk_openParen,
-        tk_closeParen,
-        tk_openBracket,
-        tk_closeBracket,
-        tk_openCurly,
-        tk_closeCurly,
-        tk_colon,
-        tk_semicolon,
-        tk_comma,
-        tk_id,
-        tk_import,
-        tk_true,
-        tk_false,
-        tk_else
-    };
+    void printToken(const string& token_name, const string& token_value) {
+        cout << "Token: " << token_name << "\tValor: " << token_value << endl;
+    }
+%}
 
-    string tokenToString(Tokens token) {
+%option yylineno
+
+%%
+
+[0-9]+                                 { printToken("tk_int", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_int); }
+[0-9]+\.[0-9]+                         { printToken("tk_float", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_float); }
+\'[^\']\'                              { printToken("tk_char", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_char); }
+\"(\\.|[^"\\])*\"                      { printToken("tk_string", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_string); }
+
+"import"                               { printToken("tk_import", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_import);}
+"int"                                  { printToken("tk_typeInt", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_typeInt); }
+"float"                                { printToken("tk_typeFloat", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_typeFloat); }
+"char"                                 { printToken("tk_typeChar", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_typeChar); }
+"string"                               { printToken("tk_typeString", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_typeString); }
+
+"[]"                                   { printToken("tk_vet", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_vet); }
+"if"                                   { printToken("tk_if", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_if); }
+"else"                                 { printToken("tk_else", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_else); }
+"for"                                  { printToken("tk_for", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_for); }
+"print"                                { printToken("tk_print", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_print); }
+"scanf"                                { printToken("tk_scanf", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_scanf); }
+"main"                                 { printToken("tk_main", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_main); }
+"void"                                 { printToken("tk_void", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_void); }
+"return"                               { printToken("tk_return", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_return); }
+
+"T"                                    { printToken("tk_true", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_true); }
+"F"                                    { printToken("tk_false", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_false); }
+
+\/\/[^\r\n]*                           {                }
+
+"="                                    { printToken("tk_atrib", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_atrib); }
+
+"+"|"-"|"*"|"**"|"/"                   { printToken("tk_opMath", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_opMath); }
+"=="|"<"|">"|"<="|">="|"and"|"or"|"!=" { printToken("tk_opLog", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_opLog); }
+"("                                    { printToken("tk_openParen", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_openParen); }
+")"                                    { printToken("tk_closeParen", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_closeParen); }
+"["                                    { printToken("tk_openBracket", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_openBracket); }
+"]"                                    { printToken("tk_closeBracket", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_closeBracket); }
+"{"                                    { printToken("tk_openCurly", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_openCurly); }
+"}"                                    { printToken("tk_closeCurly", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_closeCurly); }
+":"                                    { printToken("tk_colon", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_colon); }
+";"                                    { printToken("tk_semicolon", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_semicolon); }
+","                                    { printToken("tk_comma", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_comma); }
+
+[a-zA-Z_-][a-zA-Z0-9_.:-]*             { printToken("tk_id", yytext); strcpy(yylval.ObjNod.name,(yytext)); return (tk_id); }
+
+[ \t\r]                                {            }
+[\n]                                   { lines++;   }
+
+.                                      { cout << "Erro! Token desconhecido."; return (*yytext); }
+
+%%
+
+string tokenToString(int token) {
         switch (token) {
             case tk_int:        return "tk_int";
             case tk_float:      return "tk_float";
@@ -71,83 +98,14 @@
             case tk_comma:      return "tk_comma";
             case tk_id:         return "tk_id";
             case tk_import:     return "tk_import";
-            case tk_err:        return "tk_err";
             case tk_true:       return "tk_true";
             case tk_false:      return "tk_false";
             case tk_else:       return "tk_else";
+            case tk_void:       return "tk_void";
+            case tk_return:     return "tk_return";
             default:            return "Erro";
         }
     }
-%}
-
-%%
-
-[0-9]+                                 { return (tk_int); }
-[0-9]+\.[0-9]+                         { return (tk_float); }
-\'[^\']\'                              { return (tk_char); }
-\"(\\.|[^"\\])*\"                      { return (tk_string); }
-
-"import"                               { return (tk_import);}
-"int"                                  { return (tk_typeInt); }
-"float"                                { return (tk_typeFloat); }
-"char"                                 { return (tk_typeChar); }
-"string"                               { return (tk_typeString); }
-
-"[]"                                   { return (tk_vet); }
-"if"                                   { return (tk_if); }
-"else"                                 { return (tk_else); }
-"for"                                  { return (tk_for); }
-"print"                                { return (tk_print); }
-"scanf"                                { return (tk_scanf); }
-"main"                                 { return (tk_main); }
-"void"                                 { return (tk_void); }
-"return"                               { return (tk_return); }
-
-"T"                                    { return (tk_true); }
-"F"                                    { return (tk_false); }
-
-\/\/[^\r\n]*                           {                }
-
-"="                                    { return (tk_atrib); }
-
-"+"|"-"|"*"|"**"|"/"                   { return (tk_opMath); }
-"=="|"<"|">"|"<="|">="|"and"|"or"|"!=" { return (tk_opLog); }
-"("                                    { return (tk_openParen); }
-")"                                    { return (tk_closeParen); }
-"["                                    { return (tk_openBracket); }
-"]"                                    { return (tk_closeBracket); }
-"{"                                    { return (tk_openCurly); }
-"}"                                    { return (tk_closeCurly); }
-":"                                    { return (tk_colon); }
-";"                                    { return (tk_semicolon); }
-","                                    { return (tk_comma); }
-
-[a-zA-Z_-][a-zA-Z0-9_.:-]*             { return (tk_id); }
-
-[ \t\r\n]                              {                }
-
-.                                      { return (return *yytext); } 
-
-%%
-int main(int argc, char **argv) {
-    Tokens token;
-
-    vector<Tokens> table;
-
-    while ((token = MAKE_TOKEN(yylex()))) {
-        table.push_back(token);
-
-        if(token == 0){
-            break;
-        }
-    }
-
-    for (Tokens token : table) {
-        cout << "Token: " << tokenToString(token) << endl;
-    }
-
-    return 0;
-}
 
 int yywrap() {
     return 1;
